@@ -93,9 +93,10 @@ class DonorController extends Controller
             'foto' => $imgName,
         ]);
 
+        $donor_id = Donor::latest()->first();
         Penerimaan::create([
-            'status' => 'pending',
-            'donor_id' => $request->id
+            'status' => "Pending",
+            'donor_id' => $donor_id->id
         ]);
 
         return redirect()->back()->with('daftar', 'Berhasil mendaftarkan diri! Tunggu informasi selanjutnya ya~');

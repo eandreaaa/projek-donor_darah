@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('penerimaans', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('donor_id')->nullable();
-            $table->enum('status', ['pending', 'Ditolak', 'Diterima'])->default('pending');
+            $table->enum('status', ['Pending', 'Ditolak', 'Diterima'])->default('pending');
             $table->date('jadwal')->nullable();
             $table->timestamps();
         });

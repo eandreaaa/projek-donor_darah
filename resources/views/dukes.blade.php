@@ -8,35 +8,35 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 <body>
-    <h2>Data Pendonor</h2>
+    <center><h2>Data Pendonor</h2></center>
     <div style="display: flex; justify-content: center; margin-bottom: 30px">
         <a href="/logout" style="text-align: center">Logout</a>
         <div style="margin: 0 10px"> | </div>
         <a href="/" style="text-align: center">Home</a>
     </div>
 
-    {{-- <form action="{{route('filter-data')}}" method="GET">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-3">
+    <form action="{{route('filter-data')}}" method="GET">
+        <div class="card-body" style="display: flex; justify-content:flex-start; align-items:center; padding: 0 30px">
+                <div class="col-md-2" style="margin-bottom: 10px">
                     <select name="sort" id="sort" class="form-control filter">
                         <option selected hidden disabled>Sort by status</option>
                         <option value="Diterima">Diterima</option>
                         <option value="Ditolak">Ditolak</option>
                     </select>
                 </div>
+                <button type="submit" class="btn btn-outline-info" style="margin-top: -10px; margin-left: 8px">Submit</button>
             </div>
-        </div>
-        <button type="submit">Submit</button>
-    </form> --}}
+        </form>
 
     <div style="display: flex; justify-content: flex-end; align-items: center; padding: 0 30px">
         <form action="" method="GET">
-            <input type="text" name="search" placeholder="Cari berdasarkan nama">
-            <button type="submit" class="btn-login" style="margin-top: -1px">Cari</button>
+            <div class="input-group mb-3" style="margin-right: 9px; margin-top: -1px">
+                <input type="text" name="search" class="form-control" placeholder="Cari berdasarkan nama" aria-describedby="button-addon2">
+                <button class="btn btn-outline-success" type="button" id="button-addon2">Button</button>
+            </div>
         </form>
         
-        <a href="{{route('dukes')}}" style="margin-left: 10px; margin-top: -10px">Refresh</a>
+        <a href="{{route('dukes')}}" style="margin-left: 10px; margin-top: -10px; margin-bottom: 8px" class="btn btn-outline-secondary">Refresh</a>
     </div>
     
     @if ($errors->any())
@@ -47,13 +47,11 @@
     </ul>
     @endif
 
-    <div>
-        @if (Session::get('berhasilAdd'))
-        <div>
-            <ul>{{Session('berhasilAdd')}}</ul>
+    @if (Session::get('berhasilAdd'))
+        <div class="alert alert-success" role="alert" style="">
+            {{Session::get('berhasilAdd')}}
         </div>
-        @endif
-    </div>
+    @endif
 
     <div style="padding: 0 30px">
         <table class="table">
@@ -76,12 +74,9 @@
                 @php
                     $no = 1;
                 @endphp  
-                
-                {{-- @if (count($donors)>0) --}}
                     
                 @foreach ($donors as $org)  
                 <tr>
-
                     <th>{{$no++}}</th>
                     <td>{{$org['nama']}}</td>
                     <td>{{$org['email']}}</td>
@@ -95,64 +90,29 @@
                         </a>
                     </td>
                     <td>
-                        {{-- @if ($org->penerimaan)
-                            {{ $org->penerimaan['status']}}
+                        
+                        @if ($org->penerimaan)
+                        {{$org->penerimaan->status}}
+                        @endif
+                       
+                    </td>
+                    <td>
+                        @if ($org->penerimaan)
+                        @if($org->penerimaan->status == "Diterima")
+                        {{$org->penerimaan->jadwal}}
                         @else
-                            -
-                        @endif --}}
-                        {{-- {{$org->penerimaan['status']}} --}}
-
-                        @if(isset($org->penerimaan['donor_id']))
-                        @if(isset($org->penerimaan['jadwal']))
-                            @if ($org->penerimaan['status'] == 'Ditolak')
-                                Ditolak
-                            @elseif ($org->penerimaan['status'] == 'Pending')
-                                Pending
-                            @else
-                                Diterima
-                            @endif
+                        -
                         @endif
                         @endif
                     </td>
                     <td>
-                        {{-- @if ($org->penerimaan)
-                            {{ $org->penerimaan['jadwal']}}
-                        @else
-                            -
-                        @endif --}}
-
-                        @if(isset($org->penerimaan['donor_id']))
-                        @if(isset($org->penerimaan['jadwal']))
-                            @if ($org->penerimaan['status'] == 'Ditolak')
-                                -
-                            @else
-                                {{$org->penerimaan['jadwal']}}
-                            @endif
-                        @endif
-                        @endif
-
-                        {{-- {{ $org->penerimaan['jadwal']}} --}}
-                    </td>
-                    <td>
-                    <a href="{{route('aksi', $org->id)}}" class="btn btn-warning" style="margin-top: 10px">Buat status</a>
+                    <a href="{{route('edit.data', $org->id)}}" class="btn btn-warning" style="margin-top: 10px">Buat status</a>
                     </td>
                 </tr>
                 @endforeach
-                {{-- @else
-                @endif --}}
             </tbody>
         </table>
     </div>
-        
-    {{-- @section('js')
-    <script type="text/javascript">
-    let penerimaan = $("#sort").val()
-        $(".filter").on('change', function(){
-            console.log("FILTER");
-            penerimaan = $("#sort").val()
-        })
-        </script>
-        @endsection --}}
     <script src="{{asset('assets/js/main.js')}}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 </body>

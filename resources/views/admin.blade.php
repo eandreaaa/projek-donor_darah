@@ -8,10 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 <body>
-    <h2>Laporan Keluhan</h2>
-    <div style="display: flex;">
-        {!! $donors->links() !!}
-    </div>
+    <center><h2>Laporan Keluhan</h2></center>
 
     <div style="display: flex; justify-content: center; margin-bottom: 30px">
         <a href="/logout" style="text-align: center">Logout</a>
@@ -23,11 +20,21 @@
 
     <div style="display: flex; justify-content: flex-end; align-items: center; padding: 0 30px">
         <form action="" method="GET">
-            <input type="text" name="search" placeholder="Cari berdasarkan nama">
-            <button type="submit" class="btn-login" style="margin-top: -1px">Cari</button>
+
+            <div class="input-group mb-3" style="margin-right: 9px; margin-top: -1px">
+                <input type="text" name="search" class="form-control" placeholder="Cari berdasarkan nama" aria-describedby="button-addon2">
+                <button class="btn btn-outline-success" type="button" id="button-addon2">Button</button>
+            </div>
         </form>
         
-        <a href="{{route('admin')}}" style="margin-left: 10px; margin-top: -10px">Refresh</a>
+        <a href="{{route('admin')}}" style="margin-left: 10px; margin-top: -10px; margin-bottom: 8px" class="btn btn-outline-secondary">Refresh</a>
+    </div>
+
+    <div style="display: flex; justify-content:flex-start; align-items:center; padding: 0 30px"></div>
+    <div style="margin-left: 9px; margin-top: -10px">
+        <div style="display: flex;">
+            {!! $donors->links() !!}
+        </div>
     </div>
     
     <div style="padding: 0 30px">
@@ -41,8 +48,9 @@
                     <th scope="col">Berat Badan</th>
                     <th scope="col">Gol. Darah</th>
                     <th scope="col">KTP</th>
-                    <th scope="col">Aksi</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Jadwal</th>
+                    <th scope="col">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -74,24 +82,26 @@
                         </a>
                     </td>
                     <td>
-                        @if ($org->penerimaan['status'] == 'Ditolak')
-                            Ditolak
+                        @if ($org->penerimaan)
+                            {{ $org->penerimaan->status}}
                         @else
-                            Diterima
+                            -
                         @endif
                     </td>
                     <td>
-                        @if ($org->penerimaan['status'] == 'Ditolak')
-                            -
-                        @else
-                            {{$org->penerimaan['jadwal']}}
+                        @if ($org->penerimaan)
+                            @if ($org->penerimaan->status == "Diterima")
+                                {{ $org->penerimaan->jadwal }}
+                            @else
+                                -
+                            @endif
                         @endif
                     </td>
                     <td>
                         <form action="{{route('destroy', $org->id)}}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn-delete">Hapus</button>
+                            <button type="submit" class="btn btn-danger">Hapus</button>
                         </form>
                     </td>
                 </tr>

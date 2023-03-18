@@ -18,6 +18,8 @@
                 <th scope="col">Berat Badan</th>
                 <th scope="col">Gol. Darah</th>
                 <th scope="col">KTP</th>
+                <th scope="col">Status</th>
+                <th scope="col">Jadwal</th>
             </tr>
         </thead>
 
@@ -35,6 +37,22 @@
                 <td>{{$org['berat']}}</td>
                 <td>{{$org['goldar']}}</td>
                 <td><img src="assets/imges/{{$org['foto']}}" width="60"></td>
+                <td>
+                    @if ($org['penerimaan'])
+                        {{ $org['penerimaan']['status']}}
+                    @else
+                        -
+                    @endif
+                </td>
+                <td>
+                    @if ($org['penerimaan'])
+                        @if ($org['penerimaan']['status'] == "Diterima")
+                            {{ $org['penerimaan']['jadwal'] }}
+                        @else
+                            -
+                        @endif
+                    @endif
+                </td>
             </tr>
             @endforeach
         </tbody>

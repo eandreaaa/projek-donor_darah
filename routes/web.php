@@ -39,7 +39,7 @@ Route::middleware(['terLogin', 'terCek:admin'])->group(function() {
 
 Route::middleware(['terLogin', 'terCek:dukes'])->group(function(){
     Route::get('/dukes-only', [DonorController::class, 'dukes'])->name('dukes');
-    Route::get('/status/edit/{donor_id}', [PenerimaanController::class, 'edit'])->name('aksi');
+    Route::get('/dukes/edit/{id}', [PenerimaanController::class, 'edit'])->name('edit.data');
     Route::patch('/status/update/{id}', [PenerimaanController::class, 'update'])->name('update');
-    Route::get('/filter', [PenerimaanController::class, 'filter'])->name('filter-data');
+    Route::get('/dukes-only/filter', [PenerimaanController::class, 'filter'])->name('filter-data');
 });
