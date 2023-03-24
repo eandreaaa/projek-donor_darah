@@ -47,7 +47,8 @@
                 <td>
                     @if ($org['penerimaan'])
                         @if ($org['penerimaan']['status'] == "Diterima")
-                            {{ $org['penerimaan']['jadwal'] }}
+                            {{-- {{ $org['penerimaan']['jadwal'] }} --}}
+                            {{ is_null($org['penerimaan']['jadwal']) ? '-' : date('d M, Y', strtotime($org['penerimaan']['jadwal'])) }}
                         @else
                             -
                         @endif

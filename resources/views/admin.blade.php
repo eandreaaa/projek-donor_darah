@@ -64,13 +64,24 @@
                     <td>{{$org['nama']}}</td>
                     
                     @php
+                        // $hub = substr_replace($org->hp, "62", 0, 1);
+                        // if ($org->penerimaan == 'Diterima') {
+                        //     $Wa = 'Halo ' . $org->nama . '! Donor darah anda ' . $org->penerimaan['status'] . '. Silakan datang pada ' . $org->penerimaan['jadwal'];
+                        // } else {
+                        //     $Wa = 'Halo ' . $org->nama . '. Maaf, anda ditolak untuk menjadi pendonor dikarenakan tidak sesuai syarat. Terima kasih.';
+                        // }
+
                         $hub = substr_replace($org->hp, "62", 0, 1);
-                        if ($org->penerimaan == 'Diterima') {
-                            $Wa = 'Halo ' . $org->nama . '! Donor darah anda ' . $org->penerimaan['status'] . '. Silakan datang pada ' . $org->penerimaan['jadwal'];
+                        $penerimaan = json_decode($org->penerimaan, true); // ubah ke array asosiatif jika belum berbentuk array
+                        if ($penerimaan['status'] == 'Diterima') {
+                            $Wa = 'Halo ' . $org->nama . '! Donor darah anda ' . $penerimaan['status'] . '. Silakan datang pada ' . $penerimaan['jadwal'];
                         } else {
                             $Wa = 'Halo ' . $org->nama . '. Maaf, anda ditolak untuk menjadi pendonor dikarenakan tidak sesuai syarat. Terima kasih.';
                         }
+
                     @endphp
+
+                    
 
                     <td><a href="https://wa.me/{{$hub}}/?text={{$Wa}}" target="_blank">{{$hub}}</a></td>
                     <td>{{$org['umur']}}</td>
@@ -91,7 +102,9 @@
                     <td>
                         @if ($org->penerimaan)
                             @if ($org->penerimaan->status == "Diterima")
-                                {{ $org->penerimaan->jadwal }}
+                                {{-- {{ $org->penerimaan->jadwal}} --}}
+                                {{ date('d M, Y', strtotime($org->penerimaan->jadwal)) }}
+                                {{-- {{\Carbon\Carbon::parse($org['jadwal'])->format('j F, Y')}} --}}
                             @else
                                 -
                             @endif

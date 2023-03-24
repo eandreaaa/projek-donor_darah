@@ -16,20 +16,21 @@
         <div class="d-flex justify-content-center align-items-center  mt-5">
             <div class="card w-50">
                 <div class="card-header">
-                    Edit Data Orang
+                    <center>Jadwal Pendonor</center> 
                 </div>
                 <select class="form-select" name="status" aria-label="Default select example">
                     <option value="Diterima"  {{ $pendonor->status == 'Diterima' ? 'selected' : '' }}>Diterima</option>
                     <option value="Ditolak"  {{ $pendonor->status == 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
                 </select>
 
-        <input type="date" name="jadwal" class="form-control" value="{{$pendonor->jadwal}}">
-       <div class="my-2">
-        <button class="btn btn-success" type="submit">Kirim Response</button>
-        <a class="btn btn-primary" href="{{route('dukes')}}">Kembali</a>
-       </div>
-      </div>
-   </div>
+                <input type="date" name="jadwal" class="form-control" value="{{$pendonor->jadwal}}">
+
+                <div class="my-3">
+                    <button class="btn btn-success" type="submit">Kirim Response</button>
+                    <a class="btn btn-primary" href="{{route('dukes')}}">Kembali</a>
+                </div>
+            </div>
+        </div>
 
     </form>
 </form>

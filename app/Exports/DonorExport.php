@@ -28,6 +28,7 @@ class DonorExport implements FromCollection, WithHeadings, WithMapping
             'Berat Badan',
             'Gol. Darah',
             'Status',
+            'Jadwal',
         ];
     }
 
@@ -41,8 +42,9 @@ class DonorExport implements FromCollection, WithHeadings, WithMapping
             $data->umur,
             $data->berat,
             $data->goldar,
-            $data->penerimaan ? $data->penerimaan['status'] : '-',
-            $data->penerimaan ? $data->penerimaan['jadwal'] : '-',
+            is_null($data->penerimaan['status']) ? '-' : $data->penerimaan['status'],
+            // is_null($data->penerimaan['jadwal']) ? '-' : $data->penerimaan['jadwal'],
+            is_null($data->penerimaan['jadwal']) ? '-' : \Carbon\Carbon::parse($data->penerimaan['jadwal'])->format('d M, Y')
         ];
     }
 }
